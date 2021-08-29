@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ReactElement, Suspense } from "react";
+import { Router, Route, Switch, Redirect } from "react-router-dom";
+import styled from "styled-components";
+import history from "utils/history";
+import { Board } from "views";
 
-function App() {
+const IndexRouterCMP = ({
+  className,
+}: {
+  className?: string;
+}): ReactElement => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={className}>
+      <Router history={history}>
+        <Suspense fallback={<p>Loading...</p>}>
+          <Switch>
+            <Route path="/" exact>
+              <Redirect to="/board" />
+            </Route>
+            <Route path="/board" exact>
+              <Board />
+            </Route>
+          </Switch>
+        </Suspense>
+      </Router>
     </div>
   );
-}
+};
 
-export default App;
+const IndexRouter = styled(IndexRouterCMP)``;
+
+export default IndexRouter;
