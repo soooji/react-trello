@@ -1,3 +1,4 @@
+import { FC } from "react";
 import styled from "styled-components";
 import { CSSProperties, ReactNode } from "react";
 import * as CSS from "csstype";
@@ -20,7 +21,7 @@ type ButtonProps = {
   [key: string]: any | any[];
 };
 
-const ButtonCMP = ({
+const MyButtonCMP: FC<ButtonProps> = ({
   className,
   children,
   startIcon,
@@ -30,7 +31,7 @@ const ButtonCMP = ({
   noBg = false,
   style,
   ...props
-}: ButtonProps) => {
+}) => {
   return (
     <button
       className={clsx(
@@ -51,7 +52,7 @@ const ButtonCMP = ({
   );
 };
 
-const Button = styled(ButtonCMP)`
+const MyButton = styled(MyButtonCMP)`
   ${({ background }) => background ?? ""};
   border: none;
   border-radius: ${({ theme }) => theme.borderRadius.inside};
@@ -137,4 +138,4 @@ const Button = styled(ButtonCMP)`
     }
   }
 `;
-export default Button;
+export default MyButton;

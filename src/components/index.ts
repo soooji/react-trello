@@ -10,3 +10,4 @@ export { default as Flex } from "./Flex";
 export { default as PopOver } from "./PopOver";
 export { default as Icon } from "./Icon";
 export { default as Button } from "./Button";
+export { default as Modal } from "./Modal";

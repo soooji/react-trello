@@ -1,7 +1,7 @@
-import { Button, Icon, Flex } from "components";
 import { useState, ReactNode } from "react";
 import { FC } from "react";
 import styled from "styled-components";
+import { Modal } from "components";
 
 type ListItemProps = {
   children?: ReactNode;
@@ -11,13 +11,17 @@ type ListItemProps = {
 
 const ListItemCMP: FC<ListItemProps> = ({ className, id }) => {
   //** States */
-  const [title, setTitle] = useState<string>(
+  const [title] = useState<string>(
     "Swipe left or right to see other lists on this board."
   );
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   return (
-    <div className={className}>
-      <span className="title">{title}</span>
+    <div>
+      <Modal open={isEditOpen} onClose={()=>setIsEditOpen(false)} />
+      <div className={className} onClick={() => setIsEditOpen(true)}>
+        <span className="title">{title}</span>
+      </div>
     </div>
   );
 };

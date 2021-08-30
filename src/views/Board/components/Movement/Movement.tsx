@@ -1,4 +1,4 @@
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faExchangeAlt } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import { FC, ReactNode } from "react";
 import styled from "styled-components";
@@ -14,17 +14,18 @@ const MovementCMP: FC<MovementProps> = ({ className, vertical = false }) => {
   return (
     <div className={clsx(className, vertical && "vertical")}>
       <div>
-        <Icon icon={faPlus} />
+        <Icon icon={faExchangeAlt} />
+        {!vertical ? <span>Move Here</span> : null}
       </div>
     </div>
   );
 };
 
 const Movement = styled(MovementCMP)`
-  background: rgba(0, 0, 0, 0.1);
+  background: ${({ theme }) => theme.colors.grey[6]};
   border-radius: ${({ theme }) => theme.borderRadius.inside};
   padding: ${({ theme }) => theme.space(1)};
-  color: rgba(255, 255, 255, 0.5);
+  color: ${({ theme }) => theme.colors.grey[3]};
   font-weight: 400;
   font-size: 0.8rem;
   width: 100%;
@@ -37,6 +38,9 @@ const Movement = styled(MovementCMP)`
     align-items: center;
     width: 100%;
     height: 100%;
+  }
+  span {
+    ${({ theme }) => theme.paddingInlineStart(1)};
   }
   &.vertical {
     width: auto;

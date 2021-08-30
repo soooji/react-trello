@@ -55,6 +55,7 @@ const ListCMP: FC<ListProps> = ({ className, rows, id }) => {
 
       {/* List Items (Tasks) */}
       <div className="list__items">
+        <Movement />
         {rows.map(() => (
           <>
             <ListItem id={2} />
