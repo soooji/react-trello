@@ -10,7 +10,7 @@ type ButtonProps = {
   startIcon?: ReactNode;
   endtIcon?: ReactNode;
   background?: CSS.Property.Background;
-  mode?: "primary" | "light";
+  mode?: "primary" | "light" | "grey";
   invert?: boolean;
   style?: CSSProperties;
   bold?: boolean;
@@ -116,6 +116,13 @@ const MyButton = styled(MyButtonCMP)`
       &:hover {
         background-color: rgba(255, 255, 255, 0.15);
       }
+    }
+  }
+  &.--grey {
+    background-color: ${({ theme }) => theme.colors.grey[7]};
+    color: ${({ theme }) => theme.colors.grey[2]};
+    &:hover {
+      background-color: ${({ theme }) => theme.colors.grey[6]};
     }
   }
   &.--transparent {

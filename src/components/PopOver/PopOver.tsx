@@ -7,7 +7,11 @@ type PopOverStatusType = "hover" | "click";
 
 interface Props {
   children: ReactElement;
+  content?: ReactElement;
+  title?: string;
   className?: string;
+  fullWidth?: boolean;
+  minWidth?: string;
   mode?: PopOverStatusType;
 }
 
@@ -15,6 +19,8 @@ const PopOverCMP = ({
   children,
   className,
   mode = "hover",
+  title,
+  content,
 }: Props): ReactElement => {
   //** States */
   const [open, setOpen] = useState<boolean>(false);
@@ -45,22 +51,31 @@ const PopOverCMP = ({
   const cn = className;
 
   return (
-    <div ref={wrapperRef} className={cn} {...getEvent()}>
-      <div>{children}</div>
+    <div ref={wrapperRef} className={cn}>
+      <div {...getEvent()}>{children}</div>
       <div className={clsx(`${cn}__container`, open && "__open")}>
-        <div className={`${cn}__container__menu`}></div>
+        <div className={`${cn}__container__menu`}>
+          {title ? (
+            <div className={`${cn}__container__menu__title`}>
+              <p>{title}</p>
+            </div>
+          ) : null}
+          <div className={`${cn}__container__menu__content`}>{content}</div>
+        </div>
       </div>
     </div>
   );
 };
 
 const PopOver = styled(PopOverCMP)`
+  width: ${({ fullWidth }) => (fullWidth ? "100%" : "auto")};
   position: relative;
   display: inline-block;
   &__container {
-    z-index: 111;
+    z-index: 1111;
     position: absolute;
     top: 100%;
+    padding-top: ${({ theme }) => theme.space(0.5)};
     opacity: 0;
     transform: translateY(${({ theme }) => theme.space(1)});
     transition: ease opacity 0.1s, ease transform 0.2s;
@@ -72,12 +87,26 @@ const PopOver = styled(PopOverCMP)`
       opacity: 1;
     }
     &__menu {
-      padding: ${({ theme }) => theme.space(2)};
+      min-width: ${({ minWidth }) => minWidth ?? "auto"};
       width: 150px;
       height: 250px;
       border-radius: ${({ theme }) => theme.borderRadius.inside};
       background-color: white;
-      box-shadow: ${({ theme }) => theme.shadows[2]};
+      box-shadow: 0 8px 16px -4px #091e4240, 0 0 0 1px #091e4214;
+      &__title {
+        p {
+          padding: ${({ theme }) => theme.space(1.5)};
+          text-align: center;
+          margin: 0;
+          font-size: 0.9rem;
+          color: ${({ theme }) => theme.colors.grey[5]};
+          width: 100%;
+          border-bottom: 1px solid ${({ theme }) => theme.colors.grey[6]};
+        }
+      }
+      &__content {
+        padding: ${({ theme }) => theme.space(2)};
+      }
     }
   }
 `;

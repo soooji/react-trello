@@ -1,6 +1,8 @@
 import { useRef, useState, ReactNode } from "react";
 import { FC } from "react";
 import styled from "styled-components";
+import { Button, Icon } from "components";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 type DescriptionProps = {
   children?: ReactNode;
@@ -16,17 +18,23 @@ const DescriptionCMP: FC<DescriptionProps> = ({
 }) => {
   // ** States */
   const [editable, setEditable] = useState(false);
+  //   const [descriptionBackup, setDescriptionBackup] = useState("");
 
   //** Hooks */
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   //** Methods */
   const onEdit = () => {
+   //  setDescriptionBackup(description);
     setEditable(true);
     setTimeout(() => {
       textAreaRef.current?.focus();
     }, 200);
   };
+
+  //   const onCancel = () => {
+  //     setDescription?.(descriptionBackup);
+  //   };
 
   //** Local Variables */
   const placeholder = "Add a more detailed description...";
@@ -38,22 +46,42 @@ const DescriptionCMP: FC<DescriptionProps> = ({
           {description.length > 0 ? description : placeholder}
         </p>
       ) : (
-        <textarea
-          ref={textAreaRef}
-          onBlur={() => setEditable(false)}
-          value={description}
-          placeholder={placeholder}
-          onChange={(e) => setDescription?.(e.target.value)}
-        ></textarea>
+        <>
+          <textarea
+            ref={textAreaRef}
+            onBlur={() => setEditable(false)}
+            value={description}
+            placeholder={placeholder}
+            onChange={(e) => setDescription?.(e.target.value)}
+          ></textarea>
+          <br />
+          <Button onClick={() => setEditable(false)} margin="0px">
+            Save
+          </Button>
+          {/* <Button
+            onClick={() => onCancel()}
+            startIcon={<Icon icon={faTimes} />}
+            noBg
+          /> */}
+        </>
       )}
     </div>
   );
 };
 
 const Description = styled(DescriptionCMP)`
+  margin-top: ${({ theme }) => theme.space(1.5)};
+
+  p,
+  textarea {
+    font-weight: 350;
+    font-size: 0.95rem;
+    color: ${({ theme }) => theme.colors.grey[2]};
+  }
+
   p {
     font-size: 1rem;
-    color: ${({ theme }) => theme.colors.grey[2]};
+    margin: 0;
   }
   textarea {
     margin-top: ${({ theme }) => theme.space(-1.2)};
@@ -61,17 +89,13 @@ const Description = styled(DescriptionCMP)`
     outline: none;
     background: transparent;
     resize: none;
-    font-weight: 500;
-    font-size: 1rem;
-    color: ${({ theme }) => theme.colors.grey[2]};
-    width: calc(100% - 80px);
+    width: 100%;
     border-radius: ${({ theme }) => theme.borderRadius.inside};
     border: 2px transparent solid;
     overflow-wrap: break-word;
-    height: 45px;
+    min-height: 100px;
     padding: ${({ theme }) => theme.space(1)};
     ${({ theme }) => theme.marginInlineStart(-1)};
-    transition: ease border 0.2s;
     &:focus {
       border: 2px ${({ theme }) => theme.colors.primary.light} solid;
     }

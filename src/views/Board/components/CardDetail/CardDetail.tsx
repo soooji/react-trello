@@ -1,8 +1,12 @@
 import { useState, ReactNode } from "react";
 import { FC } from "react";
 import styled from "styled-components";
-import { Flex, Icon } from "components";
-import { faAlignLeft, faStickyNote } from "@fortawesome/free-solid-svg-icons";
+import { Button, Flex, Icon, PopOver } from "components";
+import {
+  faAlignLeft,
+  faStickyNote,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import { Description } from "./components";
 
 type CardDetailProps = {
@@ -36,16 +40,39 @@ const CardDetailCMP: FC<CardDetailProps> = ({ className }) => {
         </div>
       </Flex>
 
-      <Flex className="part title-bar">
-        <Icon className="part__icon" icon={faAlignLeft} />
-        <div className="part__content">
-          <div className="part__content__title">Description</div>
-          <aside>
-            <Description
-              description={description}
-              setDescription={setDescription}
-            />
-          </aside>
+      {/* Added Tools Part */}
+      <Flex className="card-details">
+        <div className="card-details__content">
+          <Flex className="part">
+            <Icon className="part__icon" icon={faAlignLeft} />
+            <div className="part__content">
+              <div className="part__content__title">Description</div>
+              <aside>
+                <Description
+                  description={description}
+                  setDescription={setDescription}
+                />
+              </aside>
+            </div>
+          </Flex>
+        </div>
+
+        {/* Tools Part */}
+        <div className="card-details__tools">
+          <p>ADD TO CARD</p>
+          <div className="card-details__items">
+            <PopOver
+              content={<div>Coming soon...</div>}
+              mode="click"
+              fullWidth
+              title="Members"
+              minWidth="302px"
+            >
+              <Button startIcon={<Icon icon={faUser} />} mode="grey">
+                Members
+              </Button>
+            </PopOver>
+          </div>
         </div>
       </Flex>
     </div>
@@ -54,10 +81,36 @@ const CardDetailCMP: FC<CardDetailProps> = ({ className }) => {
 
 const CardDetail = styled(CardDetailCMP)`
   padding: ${({ theme }) => theme.space(2)};
-  // Title Part
+  min-height: 500px;
+
+  .card-details {
+    width: 100%;
+    &__tools {
+      width: 200px;
+      height: 100px;
+      flex-shrink: 0;
+      > p {
+        font-size: 0.8rem;
+        color: ${({ theme }) => theme.colors.grey[4]};
+        margin: 0;
+      }
+      button {
+        width: 100%;
+        margin: 0;
+        margin-top: ${({ theme }) => theme.space(1)};
+        > div {
+          justify-content: flex-start;
+        }
+      }
+    }
+    &__content {
+      width: 100%;
+    }
+  }
+
   .part {
-    margin-top: ${({ theme }) => theme.space(2)};
-    &:first-child {
+    margin-top: ${({ theme }) => theme.space(4)};
+    &:is(.title-bar) {
       margin-top: ${({ theme }) => theme.space(1)};
     }
     &__content {
@@ -80,6 +133,7 @@ const CardDetail = styled(CardDetailCMP)`
       width: 30px;
     }
   }
+
   .title-bar {
     textarea {
       margin-top: ${({ theme }) => theme.space(-1.2)};
