@@ -4,7 +4,7 @@ import styled from "styled-components";
 // interface Props {}
 
 const BoardCMP: FC = () => {
-  return <div>Test Board</div>;
+  return <div></div>;
 };
 
 const Board = styled(BoardCMP)`

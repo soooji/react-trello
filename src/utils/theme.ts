@@ -96,8 +96,9 @@ const theme: DefaultTheme = {
       lightest: "#edf6ff",
       lighter: "#C1DDFA",
       light: "#63ACF2",
-      main: "#004983",
-      dark: "#022e52",
+      main: "#0079BE",
+      dark: "#0766A2",
+      darker: "#022e52",
     },
     info: {
       lighter: "rgba(35,152,255,0.10)",

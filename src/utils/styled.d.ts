@@ -7,6 +7,7 @@ type colorType = {
   light: string;
   main: string;
   dark: string;
+  darker?: string;
 };
 
 type spacingInput = string | number;
