@@ -152,6 +152,7 @@ const ListCMP: FC<ListProps> = ({
                 startIcon={<Icon icon={faTimes} />}
                 mode="light"
                 noBg
+                onClick={closeNewCard}
               />
             </>
           ) : (
@@ -212,7 +213,6 @@ const List = styled(ListCMP)`
       overflow-x: hidden;
     }
     &__footer {
-      padding: ${({ theme }) => theme.space(0.5)};
       &__custom-button {
         &.full-width {
           width: 100%;
