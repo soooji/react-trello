@@ -1,26 +1,41 @@
-import { useState, ReactNode } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import { FC } from "react";
 import styled from "styled-components";
-import { Button, Flex, Icon, PopOver } from "components";
 import {
   faAlignLeft,
   faStickyNote,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { Button, Flex, Icon, PopOver } from "components";
 import { Description } from "./components";
+import { CardType } from "../types";
 
 type CardDetailProps = {
   children?: ReactNode;
   className?: string;
+
+  data: CardType;
+  onChange: (updatedCard: CardType) => void;
 };
 
-const CardDetailCMP: FC<CardDetailProps> = ({ className }) => {
-  const [title, setTitle] = useState(
-    "Create as many cards as you want, we've got an unlimited supply!"
-  );
-  const [description, setDescription] = useState(
-    "There's all kinds of cool stuff back here."
-  );
+const CardDetailCMP: FC<CardDetailProps> = ({ className, data, onChange }) => {
+  //** States */
+  const [title, setTitle] = useState(data.title);
+  const [description, setDescription] = useState(data.description ?? "");
+
+  //** Hooks */
+  // Update Card Data
+  useEffect(() => {
+    // Copy
+    let tempData: CardType = { ...data };
+
+    // Update and Push
+    tempData.title = title;
+    tempData.description = description;
+
+    onChange(tempData);
+  }, [title, description]);
 
   return (
     <div className={className}>

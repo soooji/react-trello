@@ -1,9 +1,9 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useRef } from "react";
 import styled from "styled-components";
-import { Icon } from "components";
-import Button from "components/Button";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Icon, Button } from "components";
+import { useOutsideClick } from "hooks";
 
 type ModalProps = {
   className?: string;
@@ -18,9 +18,13 @@ const ModalCMP: FC<ModalProps> = ({
   onClose,
   open = false,
 }) => {
+  //-- Outside click trigger to close modal
+  const wrapperRef = useRef(null);
+  useOutsideClick(wrapperRef, () => onClose?.());
+
   return (
     <div className={clsx(className, open && "--open")}>
-      <div className={`${className}__container`}>
+      <div className={`${className}__container`} ref={wrapperRef}>
         <Button
           className="close-modal"
           startIcon={<Icon icon={faTimes} />}

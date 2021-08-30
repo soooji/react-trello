@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Flex, Icon } from "components";
 import { faTrello } from "@fortawesome/free-brands-svg-icons";
 import { Button } from "components";
-import { faBars, faHome } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faHome, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 type HeaderProps = {
   children?: ReactNode;
@@ -11,9 +11,14 @@ type HeaderProps = {
 };
 
 const HeaderCMP: FC = ({ className }: HeaderProps) => {
+  const clearData = () => {
+    localStorage.clear();
+    window.location.reload();
+  };
+
   return (
     <Flex className={className} jc="space-between" ai="center">
-      <div className="__aside">
+      <Flex className="__aside" jc="flex-start">
         <Button
           mode="light"
           startIcon={<Icon icon={faBars} />}
@@ -37,12 +42,23 @@ const HeaderCMP: FC = ({ className }: HeaderProps) => {
         >
           Boards
         </Button>
-      </div>
+      </Flex>
       <Flex jc="center" className="main-logo" ai="center">
         <Icon icon={faTrello} className="main-logo__icon" />
         <h2>Trello</h2>
       </Flex>
-      <div className="__aside"></div>
+      <Flex className="__aside" jc="flex-end">
+        <Button
+          mode="light"
+          startIcon={<Icon icon={faTrash} />}
+          bold
+          invert
+          margin="0px 2px"
+          onClick={clearData}
+        >
+          Clear Local Storage
+        </Button>
+      </Flex>
     </Flex>
   );
 };

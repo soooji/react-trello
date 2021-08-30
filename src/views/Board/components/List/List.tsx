@@ -1,36 +1,98 @@
+import { Fragment, FC, useRef, useState, useEffect, ReactNode } from "react";
 import {
   faEllipsisH,
   faPlus,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
-import { Button, Icon, Flex } from "components";
-import { useState, ReactNode } from "react";
-import { FC } from "react";
 import styled from "styled-components";
+import { Button, Icon, Flex } from "components";
+
 import ListItem from "../ListItem";
 import Movement from "../Movement";
+import { CardType, ListType } from "../types";
+import { MovingCardInfoType } from "views/Board/Board";
 
 type ListProps = {
   children?: ReactNode;
-  id: number;
   className?: string;
-  rows: any[];
+
+  data: ListType;
+  onChange: (l: ListType) => void;
+
+  movingCard?: MovingCardInfoType;
+  setMovingCard: (cardIndex: number) => void;
+  cancelMoving: () => void;
 };
 
-const ListCMP: FC<ListProps> = ({ className, rows, id }) => {
+const ListCMP: FC<ListProps> = ({
+  className,
+  data,
+  onChange,
+  movingCard,
+  setMovingCard,
+  cancelMoving,
+}) => {
   //** States */
-  const [title, setTitle] = useState<string>("Stuff to Try (this is a list)");
+  const [title, setTitle] = useState<string>(data.title);
 
-  //  New Card States
-  // TODO: Add use ourtside textarea click trigger -> to hide it
+  //-- New Card States -> TODO: Add useOutSideClick trigger
   const [isNewActive, setIsNewActive] = useState<boolean>(false);
   const [newCardTitle, setNewCardTitle] = useState<string>("");
+
+  //** Hooks */
+  const NewCardTextareaRef = useRef<HTMLTextAreaElement>(null);
+
+  //-- Update List Title
+  useEffect(() => {
+    let tempData: ListType = { ...data };
+    tempData.title = title;
+    onChange(tempData);
+  }, [title]);
 
   //** Methods */
   const closeNewCard = () => {
     setIsNewActive(false);
     setNewCardTitle("");
+  };
+
+  const openNewCard = () => {
+    setIsNewActive(true);
+    setTimeout(() => {
+      NewCardTextareaRef.current?.focus();
+    }, 200);
+  };
+
+  const addMewCard = () => {
+    if (!newCardTitle || newCardTitle?.length === 0) {
+      return alert("Type the card title first.");
+    }
+
+    // Create
+    let newCard: CardType = {
+      title: newCardTitle,
+      description: "",
+    };
+
+    // Push
+    let tempData: ListType = { ...data, cards: [...data.cards, newCard] };
+    onChange(tempData);
+
+    // Reset
+    closeNewCard();
+  };
+
+  const onChangeCard = (cardIndex: number, updatedCard: CardType) => {
+    // Spread
+    let tempCard: CardType = { ...updatedCard };
+    let tempCards: CardType[] = [...data.cards];
+
+    // Update at its index
+    tempCards[cardIndex] = tempCard;
+    let tempData: ListType = { ...data, cards: tempCards };
+
+    // Update List
+    onChange(tempData);
   };
 
   return (
@@ -56,11 +118,18 @@ const ListCMP: FC<ListProps> = ({ className, rows, id }) => {
       {/* List Items (Tasks) */}
       <div className="list__items">
         <Movement />
-        {rows.map(() => (
-          <>
-            <ListItem id={2} />
+
+        {data.cards.map((v, k) => (
+          <Fragment key={k}>
+            <ListItem
+              data={v}
+              onChange={(newCard: CardType) => onChangeCard(k, newCard)}
+              isMoving={movingCard?.cardIndex === k}
+              moveCard={() => setMovingCard(k)}
+              cancelMoving={cancelMoving}
+            />
             <Movement />
-          </>
+          </Fragment>
         ))}
 
         {/* List Footer */}
@@ -68,24 +137,24 @@ const ListCMP: FC<ListProps> = ({ className, rows, id }) => {
           {isNewActive ? (
             <>
               <textarea
+                ref={NewCardTextareaRef}
                 placeholder="Enter a title for this card..."
                 value={newCardTitle}
                 onChange={(e) => setNewCardTitle(e.target.value)}
               ></textarea>
-              <Button>Add Card</Button>
+              <Button onClick={addMewCard}>Add Card</Button>
               <Button
                 className="list__footer__custom-button"
                 startIcon={<Icon icon={faTimes} />}
                 mode="light"
                 noBg
-                onClick={closeNewCard}
               />
             </>
           ) : (
             <Button
               className="list__footer__custom-button full-width"
               startIcon={<Icon icon={faPlus} />}
-              onClick={() => setIsNewActive(true)}
+              onClick={openNewCard}
               mode="light"
               margin="0px"
               noBg
