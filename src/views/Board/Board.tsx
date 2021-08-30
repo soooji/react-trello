@@ -54,10 +54,10 @@ const BoardCMP: FC = ({ className }: BoardProps) => {
     setLists(tempList);
   };
 
-  const performMovement = (targetCardInfo: MovingCardInfoType) => {
+  const performMovement = (targetCard: MovingCardInfoType) => {
     if (
       movingCard?.cardIndex === undefined ||
-      targetCardInfo?.cardIndex === undefined
+      targetCard?.cardIndex === undefined
     )
       return setMovingCard(null);
 
@@ -66,11 +66,9 @@ const BoardCMP: FC = ({ className }: BoardProps) => {
     let sourceCard =
       tempLists[movingCard.listIndex].cards[movingCard.cardIndex];
 
-    tempLists[targetCardInfo.listIndex].cards.splice(
-      targetCardInfo.cardIndex + 1,
-      0,
-      { ...sourceCard }
-    );
+    tempLists[targetCard.listIndex].cards.splice(targetCard.cardIndex, 0, {
+      ...sourceCard,
+    });
 
     tempLists[movingCard.listIndex].cards.splice(movingCard.cardIndex, 1);
 

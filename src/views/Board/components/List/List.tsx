@@ -1,9 +1,5 @@
 import { Fragment, FC, useRef, useState, useEffect, ReactNode } from "react";
-import {
-  faEllipsisH,
-  faPlus,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import clsx from "clsx";
 import styled from "styled-components";
 import { Button, Icon, Flex } from "components";
@@ -109,14 +105,6 @@ const ListCMP: FC<ListProps> = ({
         >
           {title}
         </textarea>
-        <Button
-          startIcon={<Icon icon={faEllipsisH} />}
-          mode="light"
-          noBg
-          mini
-          height="35px"
-          margin="0px"
-        />
       </Flex>
 
       {/* List Items (Tasks) */}
@@ -143,7 +131,7 @@ const ListCMP: FC<ListProps> = ({
             (movingCard?.listIndex !== listIndex ||
               (movingCard?.cardIndex !== k &&
                 movingCard?.cardIndex - 1 !== k)) ? (
-              <Movement onClick={() => performMoving(k)} />
+              <Movement onClick={() => performMoving(k + 1)} />
             ) : null}
           </Fragment>
         ))}
