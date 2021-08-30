@@ -62,39 +62,39 @@ const ListCMP: FC<ListProps> = ({ className, rows, id }) => {
             <Movement />
           </>
         ))}
-      </div>
 
-      {/* List Footer */}
-      <div className="list__footer">
-        {isNewActive ? (
-          <>
-            <textarea
-              placeholder="Enter a title for this card..."
-              value={newCardTitle}
-              onChange={(e) => setNewCardTitle(e.target.value)}
-            ></textarea>
-            <Button>Add Card</Button>
+        {/* List Footer */}
+        <div className="list__footer">
+          {isNewActive ? (
+            <>
+              <textarea
+                placeholder="Enter a title for this card..."
+                value={newCardTitle}
+                onChange={(e) => setNewCardTitle(e.target.value)}
+              ></textarea>
+              <Button>Add Card</Button>
+              <Button
+                className="list__footer__custom-button"
+                startIcon={<Icon icon={faTimes} />}
+                mode="light"
+                noBg
+                onClick={closeNewCard}
+              />
+            </>
+          ) : (
             <Button
-              className="list__footer__custom-button"
-              startIcon={<Icon icon={faTimes} />}
+              className="list__footer__custom-button full-width"
+              startIcon={<Icon icon={faPlus} />}
+              onClick={() => setIsNewActive(true)}
               mode="light"
+              margin="0px"
               noBg
-              onClick={closeNewCard}
-            />
-          </>
-        ) : (
-          <Button
-            className="list__footer__custom-button full-width"
-            startIcon={<Icon icon={faPlus} />}
-            onClick={() => setIsNewActive(true)}
-            mode="light"
-            margin="0px"
-            noBg
-            mini
-          >
-            Add another card
-          </Button>
-        )}
+              mini
+            >
+              Add another card
+            </Button>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -134,7 +134,7 @@ const List = styled(ListCMP)`
     }
     &__items {
       padding: ${({ theme }) => theme.space(0.5)};
-      max-height: calc(100vh - 180px);
+      max-height: calc(100vh - 120px);
       overflow-y: auto;
       overflow-x: hidden;
     }

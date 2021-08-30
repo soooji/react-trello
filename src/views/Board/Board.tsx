@@ -1,7 +1,7 @@
-import { useState, FC, ReactNode } from "react";
+import { FC, ReactNode } from "react";
 import styled from "styled-components";
 import { List } from "./components";
-import { Flex, Modal } from "components";
+import { Flex } from "components";
 
 type BoardProps = {
   className?: string;

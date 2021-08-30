@@ -1,8 +1,7 @@
 import { useRef, useState, ReactNode } from "react";
 import { FC } from "react";
 import styled from "styled-components";
-import { Button, Icon } from "components";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "components";
 
 type DescriptionProps = {
   children?: ReactNode;
@@ -25,7 +24,7 @@ const DescriptionCMP: FC<DescriptionProps> = ({
 
   //** Methods */
   const onEdit = () => {
-   //  setDescriptionBackup(description);
+    //  setDescriptionBackup(description);
     setEditable(true);
     setTimeout(() => {
       textAreaRef.current?.focus();
