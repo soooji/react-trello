@@ -55,7 +55,7 @@ const Modal = styled(ModalCMP)`
     margin-bottom: ${({ theme }) => theme.space(4)};
     background-color: ${({ theme }) => theme.colors.grey[8]};
     border-radius: ${({ theme }) => theme.borderRadius.inside};
-    min-height: 1900px;
+    min-height: 200px;
     position: relative;
     > .close-modal {
       position: absolute;

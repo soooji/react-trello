@@ -2,6 +2,7 @@ import { useState, ReactNode } from "react";
 import { FC } from "react";
 import styled from "styled-components";
 import { Modal } from "components";
+import { CardDetail } from "./../index";
 
 type ListItemProps = {
   children?: ReactNode;
@@ -18,7 +19,9 @@ const ListItemCMP: FC<ListItemProps> = ({ className, id }) => {
 
   return (
     <div>
-      <Modal open={isEditOpen} onClose={()=>setIsEditOpen(false)} />
+      <Modal open={isEditOpen} onClose={() => setIsEditOpen(false)}>
+        <CardDetail />
+      </Modal>
       <div className={className} onClick={() => setIsEditOpen(true)}>
         <span className="title">{title}</span>
       </div>
