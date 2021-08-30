@@ -12,7 +12,7 @@ const LayoutCMP: FC = ({ children, className }: LayoutProps) => {
   return (
     <div className={className}>
       <Header />
-      {children}
+      <div className="page-container">{children}</div>
     </div>
   );
 };
@@ -20,6 +20,10 @@ const LayoutCMP: FC = ({ children, className }: LayoutProps) => {
 const Layout = styled(LayoutCMP)`
   height: 100vh;
   background: ${({ theme }) => theme.colors.primary.main};
+  > .page-container {
+    overflow: hidden;
+    height: calc(100% - 42px);
+  }
 `;
 
 export default Layout;

@@ -14,6 +14,9 @@ type ButtonProps = {
   style?: CSSProperties;
   bold?: boolean;
   margin?: CSS.Property.Margin;
+  height?: CSS.Property.Height;
+  noBg: boolean;
+  mini?: boolean;
   [key: string]: any | any[];
 };
 
@@ -24,18 +27,26 @@ const ButtonCMP = ({
   endIcon,
   mode = "primary",
   invert = false,
+  noBg = false,
   style,
   ...props
 }: ButtonProps) => {
   return (
     <button
-      className={clsx(className, `--${mode}`, invert && "--invert")}
-      {...props}
+      className={clsx(
+        className,
+        `--${mode}`,
+        invert && "--invert",
+        noBg && "--transparent"
+      )}
       style={style}
+      {...props}
     >
-      {startIcon ? <span className="start-icon">{startIcon}</span> : null}
-      {children ? <div>{children}</div> : null}
-      {endIcon ? <span className="end-icon"></span> : null}
+      <div>
+        {startIcon ? <span className="start-icon">{startIcon}</span> : null}
+        {children ? <div className="title">{children}</div> : null}
+        {endIcon ? <span className="end-icon"></span> : null}
+      </div>
     </button>
   );
 };
@@ -46,29 +57,36 @@ const Button = styled(ButtonCMP)`
   border-radius: ${({ theme }) => theme.borderRadius.inside};
   cursor: pointer;
   transition: ease color 0.2s, ease background 0.2s;
+  min-width: 40px;
+  height: ${({ height }) => height ?? "auto"};
+  width: ${({ width }) => width ?? "auto"};
 
-  padding: ${({ theme }) => `${theme.space(1)} ${theme.space(1.5)}`};
+  padding: ${({ theme, mini }) =>
+    mini
+      ? `${theme.space(1)} ${theme.space(1)}`
+      : `${theme.space(1)} ${theme.space(1.5)}`};
   margin: ${({ theme, margin }) =>
     margin ?? `${theme.space(1)} ${theme.space(0.5)}`};
 
-  > * {
-    display: inline-block;
-  }
+  font-size: ${({ mini }) => (mini ? "0.85rem" : ".9rem")};
 
   > div {
-    font-size: 0.95rem;
-    font-weight: ${({ bold }) => (bold ? "bold" : "500")};
-  }
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  > .start-icon,
-  > .end-icon {
-    font-size: 1rem;
-  }
-  > .start-icon {
-    ${({ children, theme }) => (children ? theme.marginInlineEnd(1) : "")};
-  }
-  > .end-icon {
-    ${({ children, theme }) => (children ? theme.marginInlineStart(1) : "")};
+    > * {
+      display: inline-block;
+    }
+    > .title {
+      font-weight: ${({ bold }) => (bold ? "bold" : "400")};
+    }
+    > .start-icon {
+      ${({ children, theme }) => (children ? theme.marginInlineEnd(1) : "")};
+    }
+    > .end-icon {
+      ${({ children, theme }) => (children ? theme.marginInlineStart(1) : "")};
+    }
   }
 
   &.--primary {
@@ -97,6 +115,25 @@ const Button = styled(ButtonCMP)`
       &:hover {
         background-color: rgba(255, 255, 255, 0.15);
       }
+    }
+  }
+  &.--transparent {
+    background: transparent;
+    color: ${({ theme }) => theme.colors.grey[2]};
+    &.--light {
+      color: ${({ theme }) => theme.colors.grey[4]};
+      &:hover {
+        color: ${({ theme }) => theme.colors.grey[3]};
+      }
+    }
+    &.--lighter {
+      color: ${({ theme }) => theme.colors.grey[5]};
+      &:hover {
+        color: ${({ theme }) => theme.colors.grey[4]};
+      }
+    }
+    &:hover {
+      background: ${({ theme }) => theme.colors.grey[7]};
     }
   }
 `;

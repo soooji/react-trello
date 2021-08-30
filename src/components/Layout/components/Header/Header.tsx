@@ -3,11 +3,7 @@ import styled from "styled-components";
 import { Flex, Icon } from "components";
 import { faTrello } from "@fortawesome/free-brands-svg-icons";
 import { Button } from "components";
-import {
-  faHome,
-  faSquare,
-  faUserMinus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBars, faHome } from "@fortawesome/free-solid-svg-icons";
 
 type HeaderProps = {
   children?: ReactNode;
@@ -20,7 +16,7 @@ const HeaderCMP: FC = ({ className }: HeaderProps) => {
       <div className="__aside">
         <Button
           mode="light"
-          startIcon={<Icon icon={faSquare} />}
+          startIcon={<Icon icon={faBars} />}
           bold
           invert
           margin="0px 2px"
@@ -55,6 +51,7 @@ const Header = styled(HeaderCMP)`
   background: ${({ theme }) => theme.colors.primary.dark};
   padding: ${({ theme }) => `${theme.space(0.5)} 0`};
   width: 100%;
+  height: 42px;
 
   .main-logo {
     width: 150px;

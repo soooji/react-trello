@@ -6,10 +6,31 @@ const GlobalStyle = createGlobalStyle`
   body {
      background-color: white;
      margin: 0;
-     font-family: 'Roboto', sans-serif;
   }
   * {
     box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+
+      /* width */
+      ::-webkit-scrollbar {
+        width: 7px;
+        height: 7px;
+        border-radius: 20px;
+      }
+      /* Track */
+      ::-webkit-scrollbar-track {
+        border-radius: 20px;
+        background: ${({ theme }) => theme.colors.grey[9]};
+      }
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        border-radius: 20px;
+        background: ${({ theme }) => theme.colors.grey[5]};
+      }
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: ${({ theme }) => theme.colors.grey[4]};
+      }
   }
 `;
 
