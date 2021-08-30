@@ -9,14 +9,16 @@ import { useState, ReactNode } from "react";
 import { FC } from "react";
 import styled from "styled-components";
 import ListItem from "../ListItem";
+import Movement from "../Movement";
 
 type ListProps = {
   children?: ReactNode;
   id: number;
   className?: string;
+  rows: any[];
 };
 
-const ListCMP: FC<ListProps> = ({ className, id }) => {
+const ListCMP: FC<ListProps> = ({ className, rows, id }) => {
   //** States */
   const [title, setTitle] = useState<string>("Stuff to Try (this is a list)");
 
@@ -53,16 +55,12 @@ const ListCMP: FC<ListProps> = ({ className, id }) => {
 
       {/* List Items (Tasks) */}
       <div className="list__items">
-        <ListItem id={2} />
-        <ListItem id={2} />
-        <ListItem id={2} />
-        <ListItem id={2} />
-        <ListItem id={2} />
-        <ListItem id={2} />
-        <ListItem id={2} />
-        <ListItem id={2} />
-        <ListItem id={2} />
-        <ListItem id={2} />
+        {rows.map(() => (
+          <>
+            <ListItem id={2} />
+            <Movement />
+          </>
+        ))}
       </div>
 
       {/* List Footer */}
@@ -110,7 +108,6 @@ const List = styled(ListCMP)`
   margin: ${({ theme }) => theme.space(1)};
   flex-shrink: 0;
   margin-bottom: auto;
-  display: inline-block;
 
   .list {
     &__title {

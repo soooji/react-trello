@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 import styled from "styled-components";
+import { List, Movement } from "./components";
 import { Flex } from "components";
-import { List } from "./components";
 
 type BoardProps = {
   className?: string;
@@ -11,14 +11,17 @@ type BoardProps = {
 const BoardCMP: FC = ({ className }: BoardProps) => {
   return (
     <div className={className}>
-      <div className="lists-container">
-        <List id={3} />
-        <List id={4} />
-        <List id={1} />
-        <List id={3} />
-        <List id={4} />
-        <List id={1} />
-      </div>
+      <Flex fw="wrap" className="lists-container">
+        <List id={3} rows={[1, 2]} />
+        <Movement vertical />
+        <List id={4} rows={[1]} />
+        <Movement vertical />
+        <List
+          id={1}
+          rows={[1, 2, 3, 4, 5, 6, 3, 3, 3, 3, 3, 3, 4, 4, 5, 5, 5]}
+        />
+        <Movement vertical />
+      </Flex>
     </div>
   );
 };
