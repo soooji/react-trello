@@ -1,9 +1,10 @@
 import { useEffect, useState, FC, ReactNode } from "react";
 import styled from "styled-components";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+
 import { List } from "./components";
 import { Button, Flex, Icon } from "components";
-import { CardType, ListType } from "./components/types";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { ListType } from "./components/types";
 import { useLocalStorage } from "hooks";
 
 type BoardProps = {
