@@ -17,6 +17,7 @@ type ListItemProps = {
   isMoving?: boolean;
   moveCard: () => void;
   cancelMoving: () => void;
+  parentTitle?: string
 };
 
 const ListItemCMP: FC<ListItemProps> = ({
@@ -26,6 +27,7 @@ const ListItemCMP: FC<ListItemProps> = ({
   moveCard,
   cancelMoving,
   isMoving = false,
+  parentTitle,
 }) => {
   //** States */
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -45,7 +47,7 @@ const ListItemCMP: FC<ListItemProps> = ({
   return (
     <div>
       <Modal open={isEditOpen} onClose={() => setIsEditOpen(false)}>
-        <CardDetail data={data} onChange={onChange} />
+        <CardDetail data={data} onChange={onChange} parentTitle={parentTitle} />
       </Modal>
       <Flex
         className={clsx(className, isMoving && "moving")}

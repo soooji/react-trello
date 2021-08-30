@@ -16,6 +16,7 @@ import { MovingCardInfoType } from "views/Board/Board";
 type ListProps = {
   children?: ReactNode;
   className?: string;
+  listIndex: number;
 
   data: ListType;
   onChange: (l: ListType) => void;
@@ -23,6 +24,7 @@ type ListProps = {
   movingCard?: MovingCardInfoType;
   setMovingCard: (cardIndex: number) => void;
   cancelMoving: () => void;
+  performMoving: (targetCardIndex: number) => void;
 };
 
 const ListCMP: FC<ListProps> = ({
@@ -32,6 +34,8 @@ const ListCMP: FC<ListProps> = ({
   movingCard,
   setMovingCard,
   cancelMoving,
+  performMoving,
+  listIndex,
 }) => {
   //** States */
   const [title, setTitle] = useState<string>(data.title);
@@ -117,18 +121,30 @@ const ListCMP: FC<ListProps> = ({
 
       {/* List Items (Tasks) */}
       <div className="list__items">
-        <Movement />
+        {movingCard?.listIndex !== undefined &&
+        (movingCard?.listIndex !== listIndex || movingCard?.cardIndex !== 0) ? (
+          <Movement onClick={() => performMoving(0)} />
+        ) : null}
 
         {data.cards.map((v, k) => (
           <Fragment key={k}>
             <ListItem
               data={v}
               onChange={(newCard: CardType) => onChangeCard(k, newCard)}
-              isMoving={movingCard?.cardIndex === k}
+              isMoving={
+                movingCard?.listIndex === listIndex &&
+                movingCard?.cardIndex === k
+              }
               moveCard={() => setMovingCard(k)}
               cancelMoving={cancelMoving}
+              parentTitle={data.title}
             />
-            <Movement />
+            {movingCard?.cardIndex !== undefined &&
+            (movingCard?.listIndex !== listIndex ||
+              (movingCard?.cardIndex !== k &&
+                movingCard?.cardIndex - 1 !== k)) ? (
+              <Movement onClick={() => performMoving(k)} />
+            ) : null}
           </Fragment>
         ))}
 

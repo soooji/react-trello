@@ -17,9 +17,15 @@ type CardDetailProps = {
 
   data: CardType;
   onChange: (updatedCard: CardType) => void;
+  parentTitle?: string;
 };
 
-const CardDetailCMP: FC<CardDetailProps> = ({ className, data, onChange }) => {
+const CardDetailCMP: FC<CardDetailProps> = ({
+  className,
+  data,
+  onChange,
+  parentTitle,
+}) => {
   //** States */
   const [title, setTitle] = useState(data.title);
   const [description, setDescription] = useState(data.description ?? "");
@@ -44,14 +50,20 @@ const CardDetailCMP: FC<CardDetailProps> = ({ className, data, onChange }) => {
         <Icon className="part__icon" icon={faStickyNote} />
         <div className="part__content">
           <textarea
+            placeholder="Enter List Name..."
             value={title}
             onChange={(e) => setTitle(e.target.value ?? "")}
           >
             {title}
           </textarea>
-          <p>
-            in list <div>Stuff to Try</div>
-          </p>
+          {parentTitle ? (
+            <p>
+              in list{" "}
+              <div>
+                {parentTitle.length > 0 ? parentTitle : "[No Named List]"}
+              </div>
+            </p>
+          ) : null}
         </div>
       </Flex>
 

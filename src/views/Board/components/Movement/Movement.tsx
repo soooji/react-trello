@@ -8,11 +8,19 @@ type MovementProps = {
   className?: string;
   children?: ReactNode;
   vertical?: boolean;
+  onClick?: Function;
 };
 
-const MovementCMP: FC<MovementProps> = ({ className, vertical = false }) => {
+const MovementCMP: FC<MovementProps> = ({
+  className,
+  vertical = false,
+  onClick,
+}) => {
   return (
-    <div className={clsx(className, vertical && "vertical")}>
+    <div
+      className={clsx(className, vertical && "vertical")}
+      onClick={(e) => onClick?.()}
+    >
       <div>
         <Icon icon={faExchangeAlt} />
         {!vertical ? <span>Move Here</span> : null}

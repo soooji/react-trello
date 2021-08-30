@@ -2,7 +2,7 @@ import { useEffect, useState, FC, ReactNode } from "react";
 import styled from "styled-components";
 import { List } from "./components";
 import { Button, Flex, Icon } from "components";
-import { ListType } from "./components/types";
+import { CardType, ListType } from "./components/types";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useLocalStorage } from "hooks";
 
@@ -19,6 +19,7 @@ export type MovingCardInfoType = {
 const BoardCMP: FC = ({ className }: BoardProps) => {
   // ** States */
   const [storagedList, setStoragedList] = useLocalStorage("TRELLO_LISTS");
+
   const [lists, setLists] = useState<ListType[]>(
     storagedList ? JSON.parse(storagedList) : []
   );
@@ -52,19 +53,48 @@ const BoardCMP: FC = ({ className }: BoardProps) => {
     setLists(tempList);
   };
 
+  const performMovement = (targetCardInfo: MovingCardInfoType) => {
+    if (
+      movingCard?.cardIndex === undefined ||
+      targetCardInfo?.cardIndex === undefined
+    )
+      return setMovingCard(null);
+
+    let tempLists: ListType[] = [...lists];
+
+    let sourceCard =
+      tempLists[movingCard.listIndex].cards[movingCard.cardIndex];
+
+    tempLists[targetCardInfo.listIndex].cards.splice(
+      targetCardInfo.cardIndex + 1,
+      0,
+      { ...sourceCard }
+    );
+
+    tempLists[movingCard.listIndex].cards.splice(movingCard.cardIndex, 1);
+
+    setLists(tempLists);
+    setMovingCard(null);
+  };
+
   return (
     <div className={className}>
       {/* Lists */}
       <Flex fw="wrap" className="lists-container">
         {lists.map((v, k) => (
           <List
+            key={k}
+            listIndex={k}
             data={v}
             onChange={(l: ListType) => onChangeList(k, l)}
-            movingCard={movingCard?.listIndex === k ? movingCard : null}
+            movingCard={movingCard}
             setMovingCard={(cardIndex: number) =>
               setMovingCard({ listIndex: k, cardIndex })
             }
             cancelMoving={() => setMovingCard(null)}
+            performMoving={(targetCardIndex) =>
+              performMovement({ listIndex: k, cardIndex: targetCardIndex })
+            }
           />
         ))}
         <Button
